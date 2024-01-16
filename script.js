@@ -7,8 +7,9 @@ let currentPage = 0;
 let limit = 10;
 let totalPage = Math.ceil(jsonData.length / limit)
 
-let changeData = (e) => {
-    switch (e.target.id) {
+let changeData = (value) => {
+    // let value = (e.target && e.target.id) ?  e.target.id : e;
+    switch (value) {
         case "previous": {
             currentPage = currentPage > 0 ? currentPage - 1 : currentPage;
             break;
@@ -26,7 +27,7 @@ let changeData = (e) => {
             break;
         }
         default: {
-            currentPage = Number(e.target.id.split("_")[1]) - 1;
+            currentPage = Number(value.split("_")[1]) - 1;
         }
     }
 
@@ -48,25 +49,25 @@ let previous = document.createElement("div");
 previous.textContent = "Previous";
 previous.id = "previous";
 previous.classList.add("pagination_button");
-previous.addEventListener("click", changeData);
+previous.addEventListener("click", (e) => changeData(e.target.id));
 
 let first = document.createElement("div");
 first.textContent = "First";
 first.id = "first";
 first.classList.add("pagination_button");
-first.addEventListener("click", changeData);
+first.addEventListener("click", (e) => changeData(e.target.id));
 
 let next = document.createElement("div");
 next.textContent = "Next";
 next.classList.add("pagination_button");
 next.id = "next";
-next.addEventListener("click", changeData);
+next.addEventListener("click", (e) => changeData(e.target.id));
 
 let last = document.createElement("div");
 last.textContent = "Last";
 last.classList.add("pagination_button");
 last.id = "last";
-last.addEventListener("click", changeData);
+last.addEventListener("click", (e) => changeData(e.target.id));
 
 wrapper.appendChild(first);
 wrapper.appendChild(previous);
@@ -77,7 +78,7 @@ for(let i = 0; i < totalPage; i++){
     page.classList.add("pagination_button");
     page.id = "page_" + (i + 1);
     wrapper.appendChild(page);
-    page.addEventListener("click", changeData);
+    page.addEventListener("click",  (e) => changeData(e.target.id));
 }
 
 
@@ -87,7 +88,8 @@ console.log("wrapper", wrapper);
 
 let displayName = document.createElement("div");
 displayName.innerHTML = `<div>name: ${jsonData[0].name} <div><div> page: 1</div>`;
-display.appendChild(displayName);
+changeData("first");
+// display.appendChild(displayName);
 let pagination = document.createElement("div");
 pagination.appendChild(wrapper);
 
